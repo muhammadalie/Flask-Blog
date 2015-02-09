@@ -1,0 +1,32 @@
+<style>
+h1 {color:red;font-size:25pt;}
+p {color:blue;}
+s1{color: green; font-size: 15pt;}
+</style>
+<html>
+  <head>
+    {% if title %}
+    <title>{{ title }} - StudentApp</title>
+    {% else %}
+    <title>Blog</title>
+    {% endif %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='button.js') }}"></script></head>
+<h1 size="56" allign='left' ><a href="/index">Blog</a>
+ <s1 style="float:right;">   {% if current_user.is_authenticated() %}
+        {{current_user.username}}<a href="/logout"> Logout</a>
+{% elif current_user.is_anonymous() %}
+        Guest<a align='left' href="/login"> Login</a><br><a href="/register">&nbsp;&nbsp;&nbsp;Register&nbsp;&nbsp;</a>
+{% endif %}</s1><br></h1>{%if current_user.is_authenticated() and not current_user.confirm%}<div style="color: red;text-align:right;" size="20">please confirm your email</div>{%endif%}
+	<hr>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</html>
